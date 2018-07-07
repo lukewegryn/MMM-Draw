@@ -1,3 +1,5 @@
+This was cloned from https://github.com/byrichardpowell/draw and modified to work with a Magic Mirror.
+
 A collaborative drawing tool
 
 Uses...
