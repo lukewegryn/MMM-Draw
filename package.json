@@ -9,8 +9,10 @@
     "node": "0.6.x"
   },
   "dependencies": {
+    "cookieparser": "^0.1.0",
     "express": "*",
-    "socket.io": "*",
-    "jade": "*"
+    "jade": "*",
+    "session": "^0.1.0",
+    "socket.io": "*"
   }
 }

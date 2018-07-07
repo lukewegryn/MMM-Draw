@@ -12,11 +12,10 @@ var express = require('express'),
 */
 
 var express = require('express');
-var app = express.createServer();
+var app = express();
 var socket = require('socket.io');
-app.configure(function(){
-  app.use(express.static(__dirname + '/'));
-});
+
+app.use(express.static(__dirname + '/'));
 
 /**
  * A setting, just one
@@ -33,30 +32,25 @@ var port = 3000;
  */
 
 var pub = __dirname + '/public';
-app.use(app.router);
+//app.use(app.router);
 app.use(express.static(pub));
 // app.use(express.errorHandler());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('view options', {layout: false});
 
-app.configure(function(){
-  app.use(express.static(__dirname + '/'));
-});
 
 // SESSIONS
-app.use(express.cookieParser());
-app.use(express.session({secret: 'secret', key: 'express.sid'}));
+//app.use(express.cookieParser());
+//app.use(express.session({secret: 'secret', key: 'express.sid'}));
 
 // DEV MODE
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+//app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+
 
 // PRODUCTON MODE
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
+
+//app.use(express.errorHandler());
 
 // ROUTES
 app.get('/', function(req, res){
@@ -94,6 +88,10 @@ io.sockets.on('connection', function (socket) {
     
     io.sockets.emit('draw:end', uid, co_ordinates)
 
+  });
+
+  socket.on('draw:clear', function (){
+    io.sockets.emit('draw:clear')
   });
   
 });

@@ -1,5 +1,22 @@
-tool.minDistance = 10;
-tool.maxDistance = 45;
+tool.minDistance = 1;
+tool.maxDistance = 6;
+
+//listen to shake event
+var shakeEvent = new Shake({threshold: 15});
+shakeEvent.start();
+window.addEventListener('shake', function(){
+    //alert("Shaked");
+    //emit clear here
+    socket.emit('draw:clear')
+}, false);
+
+//stop listening
+function stopShake(){
+    shakeEvent.stop();
+}
+
+//check if shake is supported or not.
+if(!("ondevicemotion" in window)){alert("Not Supported");}
 
 
 // Initialise Socket.io
@@ -196,6 +213,10 @@ socket.on('draw:end', function( artist, data ) {
 
 }); 
 
+socket.on('draw:clear', function(){
+    clear_canvas()
+})
+
 socket.on('user:connect', function(user_count) {
     update_user_count( user_count );
 });
@@ -222,6 +243,13 @@ function update_user_count( count ) {
     $user_count.text( (count === 1) ? " just you, why not invite some friends?" : " " + count );
 
 }
+
+var clear_canvas = function(){
+    project.activeLayer.removeChildren();
+    view.draw();
+}
+
+clear_canvas();
 
 
 var external_paths = {};
